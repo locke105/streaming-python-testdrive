@@ -39,7 +39,7 @@ class GerritEvents(object):
             'username': self.userid
         }
         if self.key:
-            connargs['pkey'] = key
+            connargs['pkey'] = self.key
 
         client.connect(**connargs)
 
