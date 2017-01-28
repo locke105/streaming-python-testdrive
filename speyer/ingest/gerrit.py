@@ -41,7 +41,7 @@ class GerritEvents(object):
             'username': self.userid
         }
         if self.key:
-            keyfile = six.moves.StringIO(key)
+            keyfile = six.moves.StringIO(self.key)
             pkey = rsakey.RSAKey(file_obj=keyfile)
             connargs['pkey'] = pkey
 
