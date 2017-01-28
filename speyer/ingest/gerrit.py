@@ -55,3 +55,7 @@ class GerritEvents(object):
 
         for event in self._read_events(stdout, use_poll=True):
             yield event
+
+    def __call__(self):
+        for event in self.events():
+            yield event
