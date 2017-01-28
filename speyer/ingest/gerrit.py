@@ -3,6 +3,8 @@ from __future__ import print_function
 import select
 
 import paramiko
+from paramiko import rsakey
+import six
 
 
 class GerritEvents(object):
@@ -12,7 +14,6 @@ class GerritEvents(object):
         self.host = host
         self.port = 29418
         self.key = key
-
 
     def _read_events(self, stream, use_poll=False):
         if not use_poll:
@@ -40,7 +41,9 @@ class GerritEvents(object):
             'username': self.userid
         }
         if self.key:
-            connargs['pkey'] = self.key
+            keyfile = six.moves.StringIO(key)
+            pkey = rsakey.RSAKey(file_obj=keyfile)
+            connargs['pkey'] = pkey
 
         client.connect(**connargs)
 
