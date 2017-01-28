@@ -1,10 +1,14 @@
 from __future__ import print_function
 
+import logging
 import select
 
 import paramiko
 from paramiko import rsakey
 import six
+
+
+LOG = logging.getLogger(__name__)
 
 
 class GerritEvents(object):
@@ -29,7 +33,6 @@ class GerritEvents(object):
                     else:
                         raise Exception('Non-POLLIN event on stdout!')
 
-    @property
     def events(self):
         client = paramiko.SSHClient()
         client.load_system_host_keys()
@@ -46,6 +49,7 @@ class GerritEvents(object):
             connargs['pkey'] = pkey
 
         client.connect(**connargs)
+        LOG.info('Connected to gerrit')
 
         stdin, stdout, stderr = client.exec_command('gerrit stream-events')
 
