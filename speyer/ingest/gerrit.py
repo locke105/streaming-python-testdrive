@@ -12,6 +12,38 @@ LOG = logging.getLogger(__name__)
 
 
 class GerritEvents(object):
+    """
+    Build and use a GerritEvents object to iterate
+    over all incoming events from a Gerrit server.
+
+      import json
+      import pprint
+
+      gerrit_stream = gerrit.GerritEvents(
+          userid='your_gerrit_user_id',
+          host='review.example.org')
+
+      for event in gerrit_stream.events():
+          pprint.pprint(json.loads(event))
+
+    Optionally, you can pass a private key in directly as
+    a string. If 'key' is not specified, the default is to rely
+    on Paramiko to find a default, usually this is '~/.ssh/id_rsa'.
+
+    The folllowing is an example of passing in the private key directly::
+
+      key = '''
+      -----BEGIN RSA PRIVATE KEY-----
+      .............................
+      -----END RSA PRIVATE KEY-----
+      '''
+
+      gerrit_stream = gerrit.GerritEvents(
+          userid='your_gerrit_user_id',
+          host='review.example.org',
+          key=key)
+
+    """
 
     def __init__(self, userid, host, key=None):
         self.userid = userid
